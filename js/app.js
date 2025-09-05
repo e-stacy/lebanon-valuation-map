@@ -1,4 +1,4 @@
-// Minimal CSV loader + table render (no framework)
+﻿// Minimal CSV loader + table render (no framework)
 // NOTE: Works with the four files provided via the Clerk's email attachments. :contentReference[oaicite:0]{index=0}
 
 async function loadCSV(path) {
@@ -28,15 +28,15 @@ const median = arr => {
 };
 
 const dataPaths = {
-  parcels: "../data/parcels.csv",
-  buildings: "../data/buildings.csv",
-  land: "../data/land.csv"
+  parcels: "data/parcels.csv",
+  buildings: "data/buildings.csv",
+  land: "data/land.csv"
 };
 
 const state = { rows: [], buildingsByPID: new Map(), landByPID: new Map() };
 
 function fmtDollars(n) {
-  if (n == null) return "—";
+  if (n == null) return "â€”";
   return n.toLocaleString(undefined, { maximumFractionDigits: 0 });
 }
 
@@ -47,7 +47,7 @@ function renderTable(rows) {
     const tr = document.createElement("tr");
     const td = vals => vals.map(v => {
       const td = document.createElement("td");
-      td.textContent = v ?? "—";
+      td.textContent = v ?? "â€”";
       return td;
     });
 
@@ -73,7 +73,7 @@ function updateKPIs(rows) {
 
   const lots = rows.map(r => r.lot_size_acres).filter(v => v != null);
   const medLot = median(lots);
-  document.querySelector("#kpi-lot").textContent = medLot != null ? medLot.toFixed(2) : "—";
+  document.querySelector("#kpi-lot").textContent = medLot != null ? medLot.toFixed(2) : "â€”";
 
   const classes = [...new Set(rows.map(r => r.class_code).filter(Boolean))];
   document.querySelector("#kpi-classes").textContent = classes.length;
@@ -83,7 +83,7 @@ function updateKPIs(rows) {
     const y = num(b?.bld_year_built) ?? num(b?.bld_effective_year_built);
     return y ?? null;
   }).filter(v => v != null);
-  document.querySelector("#kpi-yrbuilt").textContent = median(years) ?? "—";
+  document.querySelector("#kpi-yrbuilt").textContent = median(years) ?? "â€”";
 
   const glaCount = rows.filter(r => {
     const b = state.buildingsByPID.get(r.parcel_id);
